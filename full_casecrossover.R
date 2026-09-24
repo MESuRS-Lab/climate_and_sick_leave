@@ -35,7 +35,8 @@ case_data_m %>%
   mutate(wkday = wday(date_debut_arret, label = T)) %>%
   ggplot(aes(x = date_debut_arret, y = n, colour = wkday)) +
   geom_point() +
-  labs(y = "Nombre d'arrêts par jour", x = "Date de début d'arrêt")
+  labs(y = "Nombre d'arrêts par jour", x = "Date de début d'arrêt") +
+  theme_bw()
 
 # Ce dataset contient les données d'exposition pour chaque jour
 # Eg si on veut que un arrêt jour j ait les données jour j, ou j-2, ou j-7... Il faut changer
@@ -80,6 +81,11 @@ resp_data = rbind(resp_data,
 ggplot(resp_data, aes(x = date_debut_arret, y = incidence_IRA, colour = departement)) +
   geom_line() +
   labs(y = "Incidence d'IRA par jour", x = "Date de début d'arrêt")
+
+ggplot(variable_data) +
+  geom_point(aes(pm25, count_am)) +
+  theme_bw() +
+  labs(x = "Concentration PM 2.5", y = "Nombre d'arrêts")
 
 variable_data %>%
   group_by(date_debut_arret) %>%
@@ -341,7 +347,7 @@ ggplot(variable_data_m %>% filter(!is.na(TM_mean_roll))) +
 
 
 case_data_m = case_data_m %>%
-  filter(duree_am < 14) %>%
+  # filter(duree_am < 14) %>%
   filter(date_debut_arret %in% unique(variable_data_m$date_debut_arret)) %>%
   filter(wkday %in% c("mer\\.","mar\\.","ven\\.","jeu\\."))
 
@@ -409,18 +415,18 @@ res_univar = rbind(res_univar, run_regression(final_data, scenario))
 res_multivar = rbind(res_multivar, run_regression(final_data, paste0(scenario, "_multivar"), multivar = T))
 
 # ANALYSIS 1 ####
-scenario = "analysis 1"
-lag_test=2
-duree_test=3
-function_test = mean
-control_per_case = 1
-
-variable_data_m = reformat_variable_data(variable_data, lag_test, duree_test, function_test)
-control_dates = create_controls(case_data_m, control_per_case)
-final_data = create_case_crossover_data(case_data_m, variable_data_m, control_dates, control_per_case)
-
-res_univar = rbind(res_univar, run_regression(final_data, scenario))
-res_multivar = rbind(res_multivar, run_regression(final_data, paste0(scenario, "_multivar"), multivar = T))
+# scenario = "analysis 1"
+# lag_test=2
+# duree_test=3
+# function_test = mean
+# control_per_case = 1
+# 
+# variable_data_m = reformat_variable_data(variable_data, lag_test, duree_test, function_test)
+# control_dates = create_controls(case_data_m, control_per_case)
+# final_data = create_case_crossover_data(case_data_m, variable_data_m, control_dates, control_per_case)
+# 
+# res_univar = rbind(res_univar, run_regression(final_data, scenario))
+# res_multivar = rbind(res_multivar, run_regression(final_data, paste0(scenario, "_multivar"), multivar = T))
 
 
 # Cleanup results table
@@ -440,3 +446,6 @@ res_multivar_clean = res_multivar %>%
          NO2_p = round(NO2_p, 4),
          O3_or = round(O3_or, 3),
          O3_p = round(O3_p, 4))
+
+write.csv(res_univar_clean, here("results", "res_univar_unfiltered.csv"), row.names = F)
+write.csv(res_multivar_clean, here("results", "res_multivar_unfiltered.csv"), row.names = F)
