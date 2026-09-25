@@ -372,8 +372,8 @@ final_data = create_case_crossover_data(case_data_m, variable_data_m, control_da
 res_univar = rbind(res_univar, run_regression(final_data, scenario))
 res_multivar = rbind(res_multivar, run_regression(final_data, paste0(scenario, "_multivar"), multivar = T))
 
-# ANALYSIS 2 ####
-scenario = "analysis 2"
+# ANALYSIS 1 ####
+scenario = "analysis 1"
 lag_test=4
 duree_test=3
 function_test = mean
@@ -386,8 +386,8 @@ final_data = create_case_crossover_data(case_data_m, variable_data_m, control_da
 res_univar = rbind(res_univar, run_regression(final_data, scenario))
 res_multivar = rbind(res_multivar, run_regression(final_data, paste0(scenario, "_multivar"), multivar = T))
 
-# ANALYSIS 3 ####
-scenario = "analysis 3"
+# ANALYSIS 2 ####
+scenario = "analysis 2"
 lag_test=4
 duree_test=5
 function_test = mean
@@ -400,8 +400,8 @@ final_data = create_case_crossover_data(case_data_m, variable_data_m, control_da
 res_univar = rbind(res_univar, run_regression(final_data, scenario))
 res_multivar = rbind(res_multivar, run_regression(final_data, paste0(scenario, "_multivar"), multivar = T))
 
-# ANALYSIS 4 ####
-scenario = "analysis 4"
+# ANALYSIS 3 ####
+scenario = "analysis 3"
 lag_test=2
 duree_test=3
 function_test = max
@@ -414,7 +414,7 @@ final_data = create_case_crossover_data(case_data_m, variable_data_m, control_da
 res_univar = rbind(res_univar, run_regression(final_data, scenario))
 res_multivar = rbind(res_multivar, run_regression(final_data, paste0(scenario, "_multivar"), multivar = T))
 
-# ANALYSIS 1 ####
+# old ANALYSIS 1 ####
 # scenario = "analysis 1"
 # lag_test=2
 # duree_test=3
